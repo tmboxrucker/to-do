@@ -1,7 +1,8 @@
-root {
+html {
     --primary-dark: #333;
     --primary-light: #ededed;
     --secondary-light: #fefefe;
+    --darker-light: #bdbdbd;
 }
 
 * {
@@ -17,7 +18,7 @@ body {
     display: flex;
     flex-direction: column;
     min-height: 100vh;
-    font-size: 1.4em;
+    font-size: 1.2em;
     background-position: bottom;
     background-attachment: fixed;
     background-size: cover;
@@ -26,4 +27,262 @@ body {
 input, select, button {
     font-family: inherit;
     font-size: inherit;
+}
+
+#content {
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
+}
+
+/* Header section */
+
+.header {
+    background-color: var(--primary-dark);
+    color: var(--primary-light);
+    padding: 25px 0px 25px 25px;
+}
+
+/* Body section */
+
+.body {
+    flex: 1;
+    display: flex;
+}
+
+/* Nav body section */
+
+.nav {
+    padding: 25px 25px 0px 25px;
+    max-width: 200px;
+    min-width: 200px;
+    background-color: var(--darker-light);
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.filter {
+    margin: 10px;
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+}
+
+.taskList p {
+    margin: 10px;
+}
+
+/* Main body section */
+
+#main {
+    width: 800px;
+    margin: 0 auto;
+    padding: 25px 25px 0px 25px;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 10px;
+}
+
+#main h2 {
+    padding: 5px;
+}
+
+.addTask {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 22px;
+    color: #717171;
+    cursor: pointer;
+}
+
+.addTask img {
+    height: 26px;
+    padding-left: 5px;
+}
+
+.addTask:hover {
+    filter: invert(0%) sepia(100%) saturate(0%) hue-rotate(70deg) brightness(95%) contrast(103%);
+    color: black;
+}
+
+.task {
+    align-self: stretch;
+    display: flex;
+    flex-direction: column;
+}
+
+.definedTask {
+    display: flex;
+    width:100%;
+    justify-content: space-between;
+    padding: 5px;
+}
+
+/* Checkbox styling */
+
+.checkbox {
+    display: block;
+    position: relative;
+    padding-left: 35px;
+    margin-bottom: 12px;
+    cursor: pointer;
+    font-size: 22px;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+}
+
+.checkbox input {
+    position: absolute;
+    opacity: 0;
+    cursor: pointer;
+    height: 0;
+    width: 0;
+}
+
+.checkmark {
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 25px;
+    width: 25px;
+    background-color: white;
+    cursor: pointer;
+}
+
+.checkbox:hover input ~ .checkmark {
+    background-color: var(--darker-light);
+}
+
+.checkmark:after {
+    content: "";
+    position: absolute;
+    display: none;
+    cursor: pointer;
+}
+
+.checkbox input:checked ~ .checkmark {
+    background-color: var(--primary-dark);
+}
+
+.checkbox input:checked ~ .checkmark:after {
+    display: block;
+}
+
+.checkbox .checkmark:after {
+    left: 9px;
+    top: 5px;
+    width: 5px;
+    height: 10px;
+    border: solid white;
+    border-width: 0 3px 3px 0;
+    -webkit-transform: rotate(45deg);
+    -ms-transform: rotate(45deg);
+    transform: rotate(45deg);
+}
+
+
+
+
+
+
+.taskList .checkbox {
+    display: block;
+    position: relative;
+    padding-left: 25px;
+    margin-bottom: 12px;
+    cursor: pointer;
+    font-size: 17px;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+}
+
+.taskList .checkbox input {
+    position: absolute;
+    opacity: 0;
+    cursor: pointer;
+    height: 0;
+    width: 0;
+}
+
+.taskList .checkmark {
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 15px;
+    width: 15px;
+    background-color: white;
+    cursor: pointer;
+}
+
+.taskList .checkbox:hover input ~ .checkmark {
+    background-color: var(--primary-light);
+}
+
+.taskList .checkmark:after {
+    content: "";
+    position: absolute;
+    display: none;
+    cursor: pointer;
+}
+
+.taskList .checkbox input:checked ~ .checkmark {
+    background-color: var(--primary-dark);
+}
+
+.taskList .checkbox input:checked ~ .checkmark:after {
+    display: block;
+}
+
+.taskList .checkbox .checkmark:after {
+    left: 4px;
+    top: 2px;
+    width: 2.5px;
+    height: 5px;
+    border: solid white;
+    border-width: 0 3px 3px 0;
+    -webkit-transform: rotate(45deg);
+    -ms-transform: rotate(45deg);
+    transform: rotate(45deg);
+}
+
+
+
+
+
+
+.strikethrough {
+    text-decoration: line-through;
+    color: var(--darker-light);
+    filter: invert(94%) sepia(0%) saturate(1098%) hue-rotate(148deg) brightness(85%) contrast(80%);    
+}
+
+.date {
+    display: flex;
+    gap: 5px;
+}
+
+.date img {
+    height: 20px;
+    cursor: pointer;
+}
+
+.date img:hover {
+    transform: scale(1.1);
+    filter: invert(19%) sepia(0%) saturate(19%) hue-rotate(251deg) brightness(86%) contrast(89%);
+}
+
+/* Footer section */
+
+.footer {
+    text-align: center;
+    padding: 5px 0px 5px 0px;
+    background-color: var(--primary-dark);
+    color: var(--primary-light);
 }

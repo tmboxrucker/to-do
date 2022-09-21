@@ -49,22 +49,20 @@ const createNav = () => {
     home.addEventListener("click", (e) => {
         if (e.target.classList.contains('active')) return;
         setActiveNav(home);
-        loadPage('home');
+        loadPage('Home');
     });
     today.addEventListener("click", (e) => {
         if (e.target.classList.contains('active')) return;
         setActiveNav(today);
-        loadPage('today');
+        loadPage('Today');
     });
     week.addEventListener("click", (e) => {
         if (e.target.classList.contains('active')) return;
         setActiveNav(week);
-        loadPage('week');
+        loadPage('Week');
     });
 
-    console.log(filter);
     filter.appendChild(pullFilterList());
-    console.log(filter);
 
     navPanel.appendChild(home);
     navPanel.appendChild(today);
@@ -111,8 +109,6 @@ const initializeFilterList = () => {                        // initialize a list
 
 export const initialPageLoad = () => {
     const elem = document.getElementById('content');
-
-    console.log(elem)
 
     initializeFilterList();
 
