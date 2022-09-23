@@ -8,14 +8,34 @@ export const addToFilter = (task, category, date, num) => {     // Add to the li
 
     let array = [task, category, date, num];
 
-    object.push(array);
+    if (object.length > 1) {
+        let count = 0;
+        object.forEach((e) => {
+            if (e[3] == num) {
+                object[count] = array;
+            }
+            else if (num >= object.length){
+                object[num] = (array);
+
+            }
+        count++
+        });
+        count = 0;
+    }
+    else {
+        object[num] = (array);
+    }
+    
+    if (num == 'new') {
+        let newValue = object.length;
+        array[3] = newValue;
+        object[newValue] = array;
+    }
 }
 
 export const removeFromList = (e) => {
     let divSelect
     divSelect = e.target.closest('div.definedTask');
-    console.log(divSelect);
-    console.log(object)
     divSelect.remove();
 }
 
@@ -34,6 +54,18 @@ export const pullFilterList = () => {                      // Return only catego
 
     const list = document.createElement('div');
 
+    object.sort(function(a, b) {
+        var textA = a[0].toUpperCase();
+        var textB = b[0].toUpperCase();
+        return (textA < textB) ? -1 : (textA > textB) ? 1 : 0;
+    });
+
+    object.sort(function(a, b) {
+        var textA = a[1].toUpperCase();
+        var textB = b[1].toUpperCase();
+        return (textA < textB) ? -1 : (textA > textB) ? 1 : 0;
+    });
+
     list.classList.add('taskList');
     object.forEach((e) => {
         for (let i = 0; i < tempArray.length; i++) {
@@ -43,12 +75,11 @@ export const pullFilterList = () => {                      // Return only catego
         }
         list.appendChild(taskList(e,tempArray));
     });
+
     return list
 }
 
 const taskName = (e) => {
-
-    console.log(e)
     const task = document.createElement('div');
     task.classList.add('checkbox');
 
@@ -103,12 +134,10 @@ const date = (e) => {
     date.innerHTML = e[2];
 
     del.addEventListener("click", (e) => {
-        console.log('delete');
         return removeFromList(e);
     });
 
     edit.addEventListener("click", (u) => {
-        console.log('edit');
         return newTask(u,'edit',e);
     });
 
