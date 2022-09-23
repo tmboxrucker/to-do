@@ -32,8 +32,6 @@ const taskButton = () => {
     addTask.appendChild(addTaskText);
 
     addTask.addEventListener("click", (e) => {
-        console.log(addTask.closest('div>div'));
-        console.log(e.target)
         return newTask(e);
     });
     return addTask;

@@ -33,18 +33,17 @@ const createNav = () => {
     const today = document.createElement('h2');
     const week = document.createElement('h2');
     const filter = document.createElement('div');
-    const filterTitle = document.createElement('h2');
 
     home.classList.add('home', 'navSelection', 'active');
     today.classList.add('today', 'navSelection');
     week.classList.add('week', 'navSelection');
     filter.classList.add('filter');
 
+    filter.setAttribute('id','filterNav')
+
     home.innerHTML = `Home`;
     today.innerHTML = `Today`;
     week.innerHTML = `Week`;
-    filterTitle.innerHTML = `Filter`;
-    filter.appendChild(filterTitle);
 
     home.addEventListener("click", (e) => {
         if (e.target.classList.contains('active')) return;
@@ -62,14 +61,27 @@ const createNav = () => {
         loadPage('Week');
     });
 
-    filter.appendChild(pullFilterList());
-
     navPanel.appendChild(home);
     navPanel.appendChild(today);
     navPanel.appendChild(week);
-    navPanel.appendChild(filter);
+    navPanel.appendChild(createFilter(filter));
 
     return navPanel;
+}
+
+const createFilter = (filter) => {
+    filter.innerHTML = '';
+    const filterTitle = document.createElement('h2');
+    filterTitle.innerHTML = `Filter`;
+    filter.appendChild(filterTitle);
+    filter.appendChild(pullFilterList());
+
+    return filter
+}
+
+export const createNewFilter = () => {
+    const filterNav = document.getElementById('filterNav');
+    createFilter(filterNav);
 }
 
 const createMain = () => {
@@ -107,7 +119,7 @@ const initializeFilterList = () => {                        // initialize a list
     addToFilter('Bread', 'Shopping', '2022-09-26','3');
 }
 
-export const initialPageLoad = () => {
+export const initialPageLoad = (title) => {
     const elem = document.getElementById('content');
 
     initializeFilterList();
@@ -117,5 +129,5 @@ export const initialPageLoad = () => {
     elem.appendChild(createFooter());
 
     setActiveNav(document.querySelector('.nav'));
-    loadPage('Home');
+    loadPage(title);
 }
