@@ -1,14 +1,32 @@
+import {newTask} from './add-task';
 import deleteIcon from './images/delete.svg';
 import editIcon from './images/edit.svg';
 
 let object = [];                                           // Global storage of all lists in this module
-let count = 0;
 
-export const addToFilter = (task, category, date) => {     // Add to the list of tasks; include category and date
+export const addToFilter = (task, category, date, num) => {     // Add to the list of tasks; include category and date
 
-    let array = [task, category, date];
+    let array = [task, category, date, num];
 
     object.push(array);
+}
+
+export const removeFromList = (e) => {
+    let divSelect
+    divSelect = e.target.closest('div.definedTask');
+    console.log(divSelect);
+    console.log(object)
+    divSelect.remove();
+}
+
+export const replaceFromList = (task, category, date, count) => {
+    for (let i = 0; i<object.length; i++) {
+        if(object[i] = null)
+        {
+            object[i] = [task, category, date, count];
+        }
+    }
+
 }
 
 export const pullFilterList = () => {                      // Return only categories, filterd alphapetically (intended for nav)
@@ -30,17 +48,18 @@ export const pullFilterList = () => {                      // Return only catego
 
 const taskName = (e) => {
 
+    console.log(e)
     const task = document.createElement('div');
     task.classList.add('checkbox');
 
     const taskCheckbox = document.createElement('input');
     taskCheckbox.setAttribute(`type`,`checkbox`);
-    taskCheckbox.setAttribute(`id`,`object${count}`);
-    taskCheckbox.setAttribute(`name`,`object${count}`);
+    taskCheckbox.setAttribute(`id`,`object${e[3]}`);
+    taskCheckbox.setAttribute(`name`,`object${e[3]}`);
     taskCheckbox.setAttribute(`value`,`${e[0]}`);
 
     const taskName = document.createElement('label');
-    taskName.setAttribute(`for`,`object${count}`)
+    taskName.setAttribute(`for`,`object${e[3]}`)
     taskName.textContent = e[0];
 
     const taskCheck = document.createElement('span');
@@ -55,8 +74,6 @@ const taskName = (e) => {
         if (e.target.checked) return addStrikethrough(test);
         removeStrikethrough(test);
     });
-
-    count++;
 
     return task;
 }
@@ -87,10 +104,12 @@ const date = (e) => {
 
     del.addEventListener("click", (e) => {
         console.log('delete');
+        return removeFromList(e);
     });
-    
-    edit.addEventListener("click", (e) => {
+
+    edit.addEventListener("click", (u) => {
         console.log('edit');
+        return newTask(u,'edit',e);
     });
 
 
@@ -104,7 +123,7 @@ const date = (e) => {
 const task = (e) => {
     const task = document.createElement('div');
     task.classList.add('definedTask');
-    task.setAttribute(`id`,`definedTask${count}`)
+    task.setAttribute(`id`,`definedTask${e[3]}`)
     task.appendChild(taskName(e));
     task.appendChild(date(e));
     return task;
@@ -116,13 +135,13 @@ const taskList = (e, tempArray) => {
 
     const taskCheckbox = document.createElement('input');
     taskCheckbox.setAttribute(`type`,`checkbox`);
-    taskCheckbox.setAttribute(`id`,`filterObject${count}`);
-    taskCheckbox.setAttribute(`name`,`filterObject${count}`);
+    taskCheckbox.setAttribute(`id`,`filterObject${e[3]}`);
+    taskCheckbox.setAttribute(`name`,`filterObject${e[3]}`);
     taskCheckbox.setAttribute(`value`,`${e[1]}`);
     taskCheckbox.setAttribute(`checked`,`true`);
 
     const taskName = document.createElement('label');
-    taskName.setAttribute(`for`,`filterObject${count}`)
+    taskName.setAttribute(`for`,`filterObject${e[3]}`)
     taskName.textContent = e[1];
 
     const taskCheck = document.createElement('span');
@@ -137,7 +156,6 @@ const taskList = (e, tempArray) => {
     });
 
     tempArray.push(e[1]);
-    count ++
 
     return task
 }
@@ -166,13 +184,11 @@ export const pullFilter = (e) => {                          // Return entire lis
             list.appendChild(task(e));
         }
         checkedFilters.forEach((u) => {
-            if (e[1] == u) {                            // Temporarily chores, will have to pull selected from checkboxes
+            if (e[1] == u) {
                 list.appendChild(task(e));
             }
         })
     });
-
-    count = 0;
 
     return list
 }

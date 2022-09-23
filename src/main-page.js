@@ -1,5 +1,6 @@
 import {pullFilter} from './filter.js';
 import addIcon from './images/addTask.svg';
+import {newTask} from './add-task'
 
 const createPage = (type) => {
     const main = document.createElement('div');
@@ -18,6 +19,9 @@ const taskButton = () => {
     const addTask = document.createElement('div');
     addTask.classList.add('addTask');
 
+    const addTaskListener = document.createElement('div');
+    addTaskListener.classList.add('addTaskListener');
+
     const addTaskImage = new Image();
     addTaskImage.src = addIcon;
 
@@ -28,10 +32,10 @@ const taskButton = () => {
     addTask.appendChild(addTaskText);
 
     addTask.addEventListener("click", (e) => {
-        console.log('generate new task')
-        // generateNewTask()
+        console.log(addTask.closest('div>div'));
+        console.log(e.target)
+        return newTask(e);
     });
-
     return addTask;
 }
 

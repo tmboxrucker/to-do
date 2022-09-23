@@ -101,10 +101,10 @@ const setActiveNav = (e) => {
 }
 
 const initializeFilterList = () => {                        // initialize a list of To-Dos to show on screen
-    addToFilter('Wash Dishes', 'Chores', '2022-09-22');
-    addToFilter('Take out trash', 'Chores', '2022-09-25');
-    addToFilter('Milk', 'Shopping', '2022-09-26');
-    addToFilter('Bread', 'Shopping', '2022-09-26');
+    addToFilter('Wash Dishes', 'Chores', '2022-09-22','0');
+    addToFilter('Take out trash', 'Chores', '2022-09-25','1');
+    addToFilter('Milk', 'Shopping', '2022-09-26','2');
+    addToFilter('Bread', 'Shopping', '2022-09-26','3');
 }
 
 export const initialPageLoad = () => {
