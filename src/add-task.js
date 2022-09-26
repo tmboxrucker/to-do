@@ -1,4 +1,4 @@
-import {addToFilter, removeFromList} from './filter.js'
+import {addStrikethrough, addToFilter, removeFromList, removeStrikethrough} from './filter.js'
 import { loadPage } from './main-page.js';
 import { createNewFilter } from './page-load.js';
 let verifyHold = '0';
@@ -11,9 +11,17 @@ export const newTask = (e,edit,object) => {
     let editProject = ''
     let editDate = ''
     let editObjectHold = '';
+    let strikeThrough = '';
 
     if (edit != undefined) {
         divSelect = e.target.closest('div.definedTask');
+        const divLabel = divSelect.querySelector('input');
+        let test = divLabel.name.substring(6)
+        if (divLabel.checked) {
+            console.log('this should be checked')
+            removeStrikethrough(test);
+            strikeThrough = 1;
+        }
         divSelectHold = divSelect.innerHTML;
         editObjectHold = divSelect.id.substring(11);
         editTitle = object[0];
@@ -159,12 +167,30 @@ export const newTask = (e,edit,object) => {
         if (edit != undefined) {
             divSelect.innerHTML = divSelectHold;
             const addListener = divSelect.querySelectorAll('img');
+            const addCheckboxListener = divSelect.querySelector('div.checkbox>label>input')
+            if (strikeThrough == 1) {
+                let input = addCheckboxListener.name.substring(6);
+                addCheckboxListener.setAttribute('checked','true');
+                addStrikethrough(input);
+                strikeThrough = '';
+            }
+            else {
+                addCheckboxListener.removeAttribute('checked');
+            }
             addListener[0].addEventListener("click", (u) => {
                 return newTask(u,'edit',object);
             });
 
             addListener[1].addEventListener("click", (e) => {
                 return removeFromList(e);
+            });
+
+            addCheckboxListener.addEventListener("click", (e) => {
+                let test1 = e.target;
+                let test = test1.closest('input');
+                let test2 = test.name.substring(6);
+                if (e.target.checked) return addStrikethrough(test2);
+                removeStrikethrough(test2);
             });
         }
         else {
