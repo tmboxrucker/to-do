@@ -53,8 +53,10 @@ const createParagraph = (text) => {
 
 export const loadPage = (type) => {
     const body = document.getElementById('main');
+    let innerBody = body.querySelectorAll('input[type=checkbox][checked=true]');
+
     body.textContent = '';
     body.appendChild(titleFilter(type));
-    body.appendChild(pullFilter());
+    body.appendChild(pullFilter(innerBody));
     body.appendChild(taskButton());
 }
