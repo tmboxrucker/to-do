@@ -3,12 +3,37 @@ import deleteIcon from './images/delete.svg';
 import editIcon from './images/edit.svg';
 import { createNewFilter } from './page-load.js';
 import { loadPage } from './main-page.js';
+import { format, add, isWithinInterval} from 'date-fns'
+
+
 
 let object = [];                                           // Global storage of all lists in this module
 
-export const addToFilter = (task, category, date, num) => {     // Add to the list of tasks; include category and date
+const today = format(new Date(), 'MM/dd/yyyy')             // Today's date
+const weekLater = format(add(new Date(), {                 // Week from now date
+    years: 0,
+    months: 0,
+    weeks: 1,
+    days: 0,
+    hours: 0,
+    minutes: 0,
+    seconds: 0,
+}), 'MM/dd/yyyy')
 
-    let array = [task, category, date, num];
+export const addToFilter = (task, category, date, num, checked) => {     // Add to the list of tasks; include category and date
+
+
+    let newDate = format(add(new Date(date), {
+        years: 0,
+        months: 0,
+        weeks: 0,
+        days: 1,
+        hours: 0,
+        minutes: 0,
+        seconds: 0,
+    }), 'MM/dd/yyyy');
+
+    let array = [task, category, newDate, num, checked];
     let newArray = [];
 
     if (num == 'new' && object.length == 0) {
@@ -94,15 +119,15 @@ export const removeFromList = (e) => {
     divSelect.remove();
 }
 
-export const replaceFromList = (task, category, date, count) => {
-    for (let i = 0; i<object.length; i++) {
-        if(object[i] = null)
-        {
-            object[i] = [task, category, date, count];
-        }
-    }
+// const replaceFromList = (task, category, date, count) => {
+//     for (let i = 0; i<object.length; i++) {
+//         if(object[i] = null)
+//         {
+//             object[i] = [task, category, date, count];
+//         }
+//     }
 
-}
+// }
 
 export const pullFilterList = () => {                      // Return only categories, filterd alphapetically (intended for nav)
     let tempArray = [];
@@ -131,6 +156,7 @@ export const pullFilterList = () => {                      // Return only catego
         list.appendChild(taskList(e,tempArray));
     });
 
+    console.log(list.querySelectorAll)
     return list
 }
 
@@ -170,12 +196,14 @@ const taskName = (e) => {
 }
 
 export const addStrikethrough = (e) => {
+    console.log(e)
     const strike = document.getElementById(`definedTask${e}`);
     strike.classList.add('strikethrough');
 }
 
 export const removeStrikethrough = (e) => {
     const strike = document.getElementById(`definedTask${e}`);
+    console.log(strike)
     strike.classList.remove('strikethrough');
 }
 
@@ -227,7 +255,9 @@ const taskList = (e, tempArray) => {
     taskCheckbox.setAttribute(`id`,`filterObject${e[3]}`);
     taskCheckbox.setAttribute(`name`,`filterObject${e[3]}`);
     taskCheckbox.setAttribute(`value`,`${e[1]}`);
-    taskCheckbox.setAttribute(`checked`,`true`);
+    if (e[4]) {
+        taskCheckbox.setAttribute(`checked`,`${e[4]}`)
+    }
 
     const taskName = document.createElement('label');
     taskName.setAttribute(`for`,`filterObject${e[3]}`)
@@ -250,14 +280,17 @@ const taskList = (e, tempArray) => {
 }
 
 const setFilter = (e) => {
+    console.log(e)
     const body = document.getElementById('main');
     const bodyHolder = body.querySelector(('div'))
     bodyHolder.textContent = '';
     bodyHolder.appendChild(pullFilter());
 }
 
-export const pullFilter = (u) => {                          // Return entire list of the object
-                                                           // Add a checkbox pull for filtering
+export const pullFilter = (type) => {
+
+    console.log(type)
+
     let checkedFilters = [];
     const container = document.querySelector('.taskList');
     const filterValues = container.querySelectorAll('div.checkbox > label');
@@ -270,24 +303,31 @@ export const pullFilter = (u) => {                          // Return entire lis
 
     object.forEach((e) => {
         if (Object.keys(checkedFilters).length === 0) {
-            if (u != undefined) {
-                u.forEach((o) => {                      // Add the check boxes (pulled with 'u') to the load page and keep them cheked
-
-                })
-            }
-            else {
-                list.appendChild(task(e));
-            }
-            console.log('Here i am')
+            list.appendChild(task(e));
         }
         checkedFilters.forEach((u) => {
             if (e[1] == u) {
-                console.log('am I in here???')
-                list.appendChild(task(e));
+                let inBetween = isWithinInterval(new Date(e[2]), {
+                    start: new Date(today),
+                    end: new Date(weekLater)
+                })
+                if (type == 'Today') {
+                    if (e[2] == today) {
+                        list.appendChild(task(e));
+                    }
+                }
+                else if (type == 'Week') {
+                    if (inBetween == true) {
+                        list.appendChild(task(e));
+                    }
+                }
+                else {
+                    list.appendChild(task(e));
+                }
             }
         })
     });
-
     console.log(list)
+
     return list
 }
