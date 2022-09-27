@@ -70,6 +70,7 @@ const createNav = () => {
 }
 
 const createFilter = (filter) => {
+    console.log(filter)
     filter.innerHTML = '';
     const filterTitle = document.createElement('h2');
     filterTitle.innerHTML = `Filter`;
@@ -113,15 +114,16 @@ const setActiveNav = (e) => {
 }
 
 const initializeFilterList = () => {                        // initialize a list of To-Dos to show on screen
-    addToFilter('Wash Dishes', 'Chores', '2022-09-22','0');
-    addToFilter('Take out trash', 'Chores', '2022-09-25','1');
-    addToFilter('Milk', 'Shopping', '2022-09-26','2');
-    addToFilter('Bread', 'Shopping', '2022-09-26','3');
+    addToFilter('Wash Dishes', 'Chores', '2022-09-22','new',false);
+    addToFilter('Take out trash', 'Chores', '2022-09-27','new',true);
+    addToFilter('Take out trash1', 'Chores', '2022-09-28','new',true);
+    addToFilter('Take out trash2', 'Chores', '2022-09-27','new',true);
+    addToFilter('Milk', 'Shopping', '2022-09-26','new',false);
+    addToFilter('Bread', 'Shopping', '2022-09-26','new',false);
 }
 
 export const initialPageLoad = (title) => {
     const elem = document.getElementById('content');
-
     initializeFilterList();
 
     elem.appendChild(createHeader());
